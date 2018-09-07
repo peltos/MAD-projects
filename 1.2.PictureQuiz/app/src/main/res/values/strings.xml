@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Picture Quiz</string>
+    <string name="quiz_picture">Quiz Picture</string>
 </resources>

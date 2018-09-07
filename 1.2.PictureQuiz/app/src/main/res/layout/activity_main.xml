@@ -6,13 +6,90 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/quizPicture"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/quiz_picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.077"
+        app:srcCompat="@drawable/image1" />
+
+    <RadioGroup
+        android:id="@+id/quizRadioGroup"
+        android:layout_width="144dp"
+        android:layout_height="103dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginStart="103dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/quizButtonCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quizPicture">
+
+        <RadioButton
+            android:id="@+id/quizRadioButton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Giraffe"
+            tools:layout_editor_absoluteX="125dp"
+            tools:layout_editor_absoluteY="283dp" />
+
+        <RadioButton
+            android:id="@+id/quizRadioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Monkey"
+            tools:layout_editor_absoluteX="125dp"
+            tools:layout_editor_absoluteY="283dp" />
+
+        <RadioButton
+            android:id="@+id/quizRadioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Frog"
+            tools:layout_editor_absoluteX="125dp"
+            tools:layout_editor_absoluteY="283dp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/quizButtonNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginBottom="18dp"
+        android:layout_marginEnd="18dp"
+        android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/quizButtonCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:text="Check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/quizButtonNext"
+        app:layout_constraintStart_toEndOf="@+id/quizButtonPrev" />
+
+    <Button
+        android:id="@+id/quizButtonPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:layout_marginStart="16dp"
+        android:text="Prev"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
