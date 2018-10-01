@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Game Backlog</string>
+    <string name="add_portal_name">Add portal</string>
+    <string name="portal_name">Portal</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_game">Add Game</string>
+    <string name="title_activity_edit_game">Edit Game</string>
+</resources>
