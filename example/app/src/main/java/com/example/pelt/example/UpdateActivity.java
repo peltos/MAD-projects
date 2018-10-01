@@ -25,7 +25,7 @@ public class UpdateActivity extends AppCompatActivity {
 
         //Obtain the parameters provided by MainActivity
         final Reminder reminderUpdate = getIntent().getParcelableExtra(MainActivity.EXTRA_REMINDER);
-        mReminderView.setText(reminderUpdate.getmReminderText());
+        mReminderView.setText(reminderUpdate.getReminderText());
 
         FloatingActionButton fab_update = (FloatingActionButton) findViewById(R.id.fab_update);
         fab_update.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +37,7 @@ public class UpdateActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(text)) {
 
-                    reminderUpdate.setmReminderText(text);
+                    reminderUpdate.setReminderText(text);
 
                     //Prepare the return parameter and return
                     Intent resultIntent = new Intent();

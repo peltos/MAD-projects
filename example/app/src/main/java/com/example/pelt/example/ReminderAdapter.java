@@ -32,7 +32,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Reminder reminder =  mReminders.get(position);
-        holder.textView.setText(reminder.getmReminderText());
+        holder.textView.setText(reminder.getReminderText());
     }
 
     @Override
@@ -59,6 +59,16 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
 
     public interface ReminderClickListener{
         void reminderOnClick (int i);
+    }
+
+    public void swapList (List<Reminder> newList) {
+
+        mReminders = newList;
+        if (newList != null) {
+
+            // Force the RecyclerView to refresh
+            this.notifyDataSetChanged();
+        }
     }
 }
 
