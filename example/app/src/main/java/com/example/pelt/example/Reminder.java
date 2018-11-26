@@ -12,7 +12,7 @@ public class Reminder implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo (name = "remindertext")
+    @ColumnInfo(name = "remindertext")
     private String mReminderText;
 
     public String getReminderText() {

@@ -11,13 +11,24 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public class MainActivity extends AppCompatActivity implements ReminderAdapter.ReminderClickListener {
 
@@ -27,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
 
     private ReminderAdapter mAdapter;
     private RecyclerView mRecyclerView;
+
+    private TextView mQuoteTextView;
 
     //Constants used when calling the update activity
     public static final String EXTRA_REMINDER = "Reminder";
@@ -51,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
         //Initialize the local variables
 
         db = AppDatabase.getInstance(this);
+
+        mQuoteTextView= findViewById(R.id.quote_message);
+        requestData();
 
         new ReminderAsyncTask(TASK_GET_ALL_REMINDERS).execute();
 
@@ -185,7 +201,6 @@ and uses callbacks to signal when a user is performing these actions.
             this.taskCode = taskCode;
         }
 
-
         @Override
         protected List doInBackground(Reminder... reminders) {
             switch (taskCode) {
@@ -202,18 +217,69 @@ and uses callbacks to signal when a user is performing these actions.
                     break;
             }
 
-
             //To return a new list with the updated data, we get all the data from the database again.
             return db.reminderDao().getAllReminders();
         }
-
 
         @Override
         protected void onPostExecute(List list) {
             super.onPostExecute(list);
             onReminderDbUpdated(list);
         }
+    }
 
+    public void setQuoteTextView(String quoteMessage) {
+        mQuoteTextView.setText(quoteMessage);
+    }
+
+    public interface NumbersApiService {
+        String BASE_URL = "http://numbersapi.com/";
+        /**
+         * Create a retrofit client.
+         */
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        /**
+         * The string in the GET annotation is added to the BASE_URL.
+         * It simply represents the designed layout of the URLs of the numbersapi.com website,
+         * refer to it in a browser and try. This request will deliver a json stream based on month and
+         * day of month. It will be put in a DayQuoteTime object by Retrofit.
+         */
+        @GET("/{month}/{dayOfMonth}/date?json")
+        /**
+         * "DayQuoteTime" is the name of the helper class just defined, defining the datamodel, and given as argument.
+         * "getTodaysQuote" is the name of the symbol get method. It can be chosen at wish, as long as it is invoked
+         * with the same name.
+         */
+        Call<DayQuoteItem> getTodaysQuote(@Path("month") int monthNumber, @Path("dayOfMonth") int dayOfMonth);
+    }
+
+    private void requestData() {
+        NumbersApiService service = NumbersApiService.retrofit.create(NumbersApiService.class);
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH) + 1; //Calendar.MONTH starts at zero
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        /**
+         * Make an a-synchronous call by enqueing and definition of callbacks.
+         */
+
+        Call<DayQuoteItem> call = service.getTodaysQuote(month, dayOfMonth);
+        call.enqueue(new Callback<DayQuoteItem>() {
+
+            @Override
+            public void onResponse(Call<DayQuoteItem> call, Response<DayQuoteItem> response) {
+                DayQuoteItem dayQuoteItem = response.body();
+                setQuoteTextView(dayQuoteItem.getText());
+            }
+
+            @Override
+            public void onFailure(Call<DayQuoteItem> call, Throwable t) {
+                Log.d("error",t.toString());
+            }
+        });
     }
 
 
